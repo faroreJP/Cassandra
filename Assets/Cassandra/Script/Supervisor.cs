@@ -17,8 +17,7 @@ namespace Cassandra {
     // Field
     //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-    private const string        SupervisorPrefabPath  = "Cassandra/Supervisor";
-    private       Queue<Order>  _orders               = new Queue<Order>();
+    private Queue<Order>  _orders = new Queue<Order>();
 
     //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
     // Unity Callback
@@ -38,22 +37,8 @@ namespace Cassandra {
     // Create supervisor object
     // @Return : the supervisor instance
     public static ISupervisor CreateSupervisor () {
-      var prefab = Resources.Load<GameObject>(SupervisorPrefabPath);
-      if (prefab == null) {
-        throw new System.ApplicationException("[Cassandra] Prefab not found! : " + SupervisorPrefabPath);
-      }
-
-      var obj = GameObject.Instantiate(prefab);
-      if (obj == null) {
-        throw new System.ApplicationException("[Cassandra] Failed to instantiate supervisor!" + SupervisorPrefabPath);
-      }
-
-      var supervisor = obj.GetComponent<ISupervisor>();
-      if (supervisor == null) {
-        throw new System.ApplicationException("[Cassandra] The instantiated supervisor doesn't has ISupervisor!" + SupervisorPrefabPath);
-      }
-
-      return supervisor;
+      var obj = new GameObject("CassandraSupervisor", typeof(Supervisor));
+      return obj.GetComponent<ISupervisor>();
     }
 
     //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
