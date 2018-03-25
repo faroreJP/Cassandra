@@ -10,7 +10,10 @@
 namespace Cassandra {
   public delegate void Order ();
 
-  public interface ISupervisor {
+  public interface IOrderSupervisor {
+
+    int OrderCount { get; }
+
     // Add action order to execute in main thread
     // @Param[in] order : the order delegate
     void AddOrder (Order order);

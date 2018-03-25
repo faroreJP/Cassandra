@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Cassandra {
-  public class Supervisor : MonoBehaviour, ISupervisor {
+  public class OrderSupervisorBehaviour : MonoBehaviour, IOrderSupervisor {
     //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
     // Field
     //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -34,11 +34,13 @@ namespace Cassandra {
     // Public Static Method
     //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
+    public int OrderCount { get { return _orders.Count; } }
+
     // Create supervisor object
     // @Return : the supervisor instance
-    public static ISupervisor CreateSupervisor () {
-      var obj = new GameObject("CassandraSupervisor", typeof(Supervisor));
-      return obj.GetComponent<ISupervisor>();
+    public static IOrderSupervisor CreateSupervisor () {
+      var obj = new GameObject("OrderSupervisor", typeof(OrderSupervisorBehaviour));
+      return obj.GetComponent<IOrderSupervisor>();
     }
 
     //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
