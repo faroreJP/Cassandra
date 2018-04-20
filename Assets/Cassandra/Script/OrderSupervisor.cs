@@ -1,18 +1,17 @@
-﻿//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
 // Basic inplementation of ISupervisor
 //
 // @Author : Farore
-// @Date   : 2018/03/23
+// @Date   : 2018/04/20
 //
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Cassandra {
-  public class OrderSupervisorBehaviour : MonoBehaviour, IOrderSupervisor {
+  public class OrderSupervisor : IOrderSupervisor {
     //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
     // Field
     //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -20,25 +19,22 @@ namespace Cassandra {
     private Queue<Order> _orders = new Queue<Order>();
 
     //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-    // Unity Callback
+    // Public Method
     //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-    private void Update () {
-      while (_orders.Count > 0) {
-        var order = _orders.Dequeue();
-        order.Invoke();
-      }
+    // Execute 1 order
+    // @Return :
+    //   true  - order was executed
+    //   false - otherwise
+    public bool ExecuteOrder () {
+      if (OrderCount == 0) return false;
+      _orders.Dequeue().Invoke();
+      return true;
     }
 
-    //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-    // Public Static Method
-    //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-
-    // Create supervisor object
-    // @Return : the supervisor instance
-    public static IOrderSupervisor CreateSupervisor () {
-      var obj = new GameObject("OrderSupervisor", typeof(OrderSupervisorBehaviour));
-      return obj.GetComponent<IOrderSupervisor>();
+    // Execute all orders
+    public void ExecuteAllOrders () {
+      while (ExecuteOrder());
     }
 
     //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
