@@ -17,17 +17,14 @@ namespace Cassandra {
     // Field
     //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-    private Queue<Order> _orders = new Queue<Order>();
+    private OrderSupervisor _orderSupervisor = new OrderSupervisor();
 
     //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
     // Unity Callback
     //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
     private void Update () {
-      while (_orders.Count > 0) {
-        var order = _orders.Dequeue();
-        order.Invoke();
-      }
+      _orderSupervisor.ExecuteAllOrders();
     }
 
     //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -45,12 +42,12 @@ namespace Cassandra {
     // IOrderSupervisor
     //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-    public int OrderCount { get { return _orders.Count; } }
+    public int OrderCount { get { return _orderSupervisor.OrderCount; } }
 
     // Add action order to execute in main thread
     // @Param[in] order : the order delegate
     public void AddOrder (Order order) {
-      _orders.Enqueue(order);
+      _orderSupervisor.AddOrder(order);
     }
   }
 }
