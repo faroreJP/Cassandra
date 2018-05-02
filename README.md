@@ -25,5 +25,5 @@ orderSupervisor.ExecuteOrder();
 ```
 
 ### OrderSupervisorBehaviour
-There is no need to think.
+There is no need to think.  
 OrderSupervisorBehaviour always executes orders on Update() while it is enabled.
